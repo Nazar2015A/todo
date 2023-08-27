@@ -1,0 +1,145 @@
+body {
+  height: 100%;
+  background: #8758ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.wrapper {
+  margin-top: 200px;
+  background: #1a1a40;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  border-radius: 5px;
+}
+.restoreMsg {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a40;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  margin: 20px 0 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.form input,
+button {
+  border: none;
+  outline: none;
+  padding: 10px;
+}
+.form button {
+  cursor: pointer;
+  background: #8758ff;
+  color: #fff;
+}
+.deleteTask {
+  margin-left: 10px;
+}
+.Todo {
+  background: #8758ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-radius: 5px;
+  max-width: 300px;
+}
+.Todo:last-child {
+  margin-bottom: 20px;
+}
+.Todo p {
+  word-break: break-all;
+  color: #fff;
+  cursor: pointer;
+}
+.complete {
+  color: #eeecec !important;
+  text-decoration: line-through;
+}
+.icons {
+  display: flex;
+  gap: 10px;
+  margin-left: 20px;
+}
+.icon {
+  cursor: pointer;
+  color: #fff;
+}
+.restore {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.restoredItem {
+  position: absolute;
+  top: -40px;
+  left: calc(100% + 50px);
+  min-width: 200px;
+  min-height: 200px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  background: #1a1a40;
+  padding: 30px 20px;
+  row-gap: 20px;
+}
+.itemTask {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #8758ff;
+  padding: 0 20px;
+  color: #fff;
+  border-radius: 5px;
+  max-width: 300px;
+  min-width: 200px;
+}
+.itemTask p {
+  word-break: break-all;
+}
+.restoreIconWrapper {
+  margin-left: 20px;
+}
+.restoreIcon {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.restoreBtn {
+  margin-left: 10px;
+}
+.item-enter {
+  opacity: 0;
+}
+
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.item-exit {
+  opacity: 1;
+}
+
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
