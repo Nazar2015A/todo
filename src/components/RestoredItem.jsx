@@ -1,10 +1,11 @@
 import React from "react";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
 
-const RestoredItem = ({ restore, addTask, deleteRestoreTask, clearAll }) => {
+const RestoredItem = ({ restore, addTask, deleteRestoreTask, setRestore}) => {
   const restoreTask = (item) => {
     addTask(item.task, item.completed ? true : false);
     deleteRestoreTask(item.id);
+    
   };
   const Item = (item) => {
     return (
@@ -21,7 +22,7 @@ const RestoredItem = ({ restore, addTask, deleteRestoreTask, clearAll }) => {
   };
   return (
       <div className="restoredItem">
-        <button className="deleteAllBtn" onClick={() => clearAll()}>
+        <button className="deleteAllBtn" onClick={() => setRestore([])}>
           Clear All
         </button>
         {restore.map((item) => Item(item))}

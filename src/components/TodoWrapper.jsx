@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import RestoredItem from "./RestoredItem";
 import { CSSTransition } from "react-transition-group";
 
-const TodoWrapper = ({ addTask, restore, deleteRestoreTask, clearAll, setRestoreMsg, restoreMsg }) => {
+const TodoWrapper = ({
+  addTask,
+  restore,
+  deleteRestoreTask,
+  setRestoreMsg,
+  restoreMsg,
+  setRestore,
+}) => {
   const [value, setValue] = useState("");
   const [isRestore, setIsRestore] = useState(false);
-  let time = null;
+  const time = useRef(null);
+  const nodeRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,39 +24,29 @@ const TodoWrapper = ({ addTask, restore, deleteRestoreTask, clearAll, setRestore
   };
 
   const restoreFunc = () => {
-    setIsRestore((prev) => !prev);
-    if(restore.length === 0) {
+    clearTimeout(time.current);
+    setIsRestore((prev) => (restore.length ? !prev : prev));
+    if (restore.length === 0) {
       setRestoreMsg(true);
-      clearTimeout(time);
-      // time = null;
-      console.log(time)
-      if (time ===  null) {
-        time = setTimeout(() => {
-          setRestoreMsg(false);
-        }, 5000);
-      }
+      time.current = setTimeout(() => {
+        setRestoreMsg(false);
+      }, 5000);
+    } else {
+      setRestoreMsg(false);
     }
     if (!restoreMsg) {
       setTimeout(() => {
         setRestoreMsg(false);
       }, 5000);
     }
-    if (restore.length !== 0) {
-      setRestoreMsg(false);
+  };
+
+  useEffect(() => {
+    if (restore.length === 0) {
+      setIsRestore(false)
     }
-    
-  }
-  // useEffect(() => {
-  //   let time = null;
-  //   if (restoreMsg) {
-  //     time = setTimeout(() => {
-  //       setRestoreMsg(false);
-  //     }, 5000);
-  //   }
-  //   if (restore.length !== 0) {
-  //     setRestoreMsg(false);
-  //   }
-  // }, [restore.length, restoreMsg])
+  }, [restore.length])
+
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -63,23 +61,27 @@ const TodoWrapper = ({ addTask, restore, deleteRestoreTask, clearAll, setRestore
         className="restoreBtn"
         type="submit"
         onClick={restoreFunc}
-        // disabled={restoreMsg ? true : false}
       >
         Restore
       </button>
-
-        <div>
-          {isRestore && restore.length !== 0 && (
-
-                <RestoredItem
-                  isRestore={isRestore}
-                  clearAll={clearAll}
-                  restore={restore}
-                  addTask={addTask}
-                  deleteRestoreTask={deleteRestoreTask}
-                />
+      <CSSTransition
+      nodeRef={nodeRef}
+        in={isRestore}
+        timeout={1000}
+        classNames="item"
+        
+      >
+        <div ref={nodeRef}>
+          {(isRestore && restore.length !== 0) && (
+            <RestoredItem
+              setRestore={setRestore}
+              restore={restore}
+              addTask={addTask}
+              deleteRestoreTask={deleteRestoreTask}
+            />
           )}
         </div>
+      </CSSTransition>
     </form>
   );
 };

@@ -12,11 +12,8 @@ const EditTodoForm = ({todo, editTask, deleteTask}) => {
     <form className='form' onSubmit={handleSubmit}>
         <input value={value} onChange={(e) => setValue(e.target.value)} type="text" placeholder='Enter your Task' />
         <button type='submit'>Add Task</button>
-        {
-          !value && (
-            <button className='deleteTask' onClick={() => deleteTask(todo.id)}>Delete</button>
-          )
-        }
+        <button className='deleteTask' onClick={() => deleteTask(todo.id)}>Delete</button>
+          
     </form>
   )
 }

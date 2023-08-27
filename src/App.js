@@ -1,15 +1,17 @@
 import TodoForm from "./components/TodoForm";
 import TodoWrapper from "./components/TodoWrapper";
 import './App.css'
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import EditTodoForm from "./components/EditTodoForm";
+import { CSSTransition } from "react-transition-group";
 
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [restore, setRestore] = useState([]);
   const [restoreMsg, setRestoreMsg] = useState(false);
+  const nodeRef = useRef(null);
   const addTask = (todo, isTrue) => {
     setTodos([...todos, {
       id: uuidv4(), 
@@ -35,24 +37,33 @@ function App() {
   const editTask = (task, id) => {
     setTodos(todos.map((item) => item.id === id ? {...item, task, isEdited: !item.isEdited} : item))
   }
-  const clearAll = () => {
-    setRestore([]);
-  }
-  
   
   return (
     <div className="wrapper">
+      <CSSTransition
+        in={restoreMsg}
+        timeout={1000}
+        classNames="item"
+        nodeRef={nodeRef}
+        
+      >
+        <div ref={nodeRef}>
+
       {
         restoreMsg && (
           <p className="restoreMsg">You are not having any restore item!</p>
         )
       }
-      <TodoWrapper restoreMsg={restoreMsg} setRestoreMsg={setRestoreMsg} addTask={addTask} clearAll={clearAll} restore={restore} deleteRestoreTask={deleteRestoreTask} />
+        </div>
+
+      </CSSTransition>
+      <TodoWrapper restoreMsg={restoreMsg} setRestoreMsg={setRestoreMsg} addTask={addTask} setRestore={setRestore} restore={restore} deleteRestoreTask={deleteRestoreTask} />
       {
         todos.map((todo) => todo.isEdited ? <EditTodoForm todo={todo} deleteTask={deleteTask} editTask={editTask} key={todo.id} /> : <TodoForm deleteTask={deleteTask} completedText={completedText} key={todo.id} todo={todo} editTodo={editTodo} />)
       }
-    
+
     </div>
+    
   );
 }
 
