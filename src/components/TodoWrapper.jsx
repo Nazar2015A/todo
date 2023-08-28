@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import RestoredItem from "./RestoredItem";
-import { CSSTransition } from "react-transition-group";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const TodoWrapper = ({
   addTask,
@@ -43,10 +43,9 @@ const TodoWrapper = ({
 
   useEffect(() => {
     if (restore.length === 0) {
-      setIsRestore(false)
+      setIsRestore(false);
     }
-  }, [restore.length])
-
+  }, [restore.length]);
 
   return (
     <form className="form" onSubmit={handleSubmit}>
@@ -57,31 +56,28 @@ const TodoWrapper = ({
         placeholder="Enter your Task"
       />
       <button type="submit">Add Task</button>
-      <button
-        className="restoreBtn"
-        type="submit"
-        onClick={restoreFunc}
-      >
+      <button className="restoreBtn" type="submit" onClick={restoreFunc}>
         Restore
       </button>
-      <CSSTransition
-      nodeRef={nodeRef}
-        in={isRestore}
-        timeout={1000}
-        classNames="item"
-        
-      >
-        <div ref={nodeRef}>
-          {(isRestore && restore.length !== 0) && (
+
+      <TransitionGroup>
+        {isRestore && restore.length !== 0 && (
+          <CSSTransition
+            nodeRef={nodeRef}
+            timeout={500}
+            classNames="item"
+            unmountOnExit
+          >
             <RestoredItem
+              nodeRef={nodeRef}
               setRestore={setRestore}
               restore={restore}
               addTask={addTask}
               deleteRestoreTask={deleteRestoreTask}
             />
-          )}
-        </div>
-      </CSSTransition>
+          </CSSTransition>
+        )}
+      </TransitionGroup>
     </form>
   );
 };
