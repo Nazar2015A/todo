@@ -1,16 +1,22 @@
 import TodoForm from "./components/TodoForm";
 import TodoWrapper from "./components/TodoWrapper";
 import "./App.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import EditTodoForm from "./components/EditTodoForm";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function App() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(localStorage.getItem("todo") ? JSON.parse(localStorage.getItem("todo")) : []);
   const [restore, setRestore] = useState([]);
   const [restoreMsg, setRestoreMsg] = useState(false);
   const nodeRef = useRef(null);
+
+  console.log(localStorage.getItem("todo"))
+  useEffect(() => {
+    localStorage.setItem("todo", JSON.stringify(todos))
+  }, [todos])
+
   const addTask = (todo, isTrue) => {
     setTodos([
       ...todos,
